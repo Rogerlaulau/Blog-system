@@ -35,7 +35,7 @@ const initializeTables = () => {
 }
 
 
-//call function to init the post, postComment, user, role tables
+//call function to init the tables post, postComment, user 
 initializeTables();
 
 const AuthorType = new graphql.GraphQLObjectType({
