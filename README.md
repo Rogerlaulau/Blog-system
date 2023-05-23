@@ -15,110 +15,51 @@ $ docker run -p 4000:4000 -d rogerlau/blog
 Get container ID
 $ docker ps
 
-Go to your browser:
-http://localhost:4000/graphql
+Open your Postman:
+1. Go to Postman and create a tab set a request type with GraphQL
+2. Enter request url: http://localhost:4000/graphql
+3. Select type "Bearer Token" of a user named roger under Authorization with the following token (you need a token to sign up for a new user):
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjc4LCJpYXQiOjE2ODQ4NjM3MTF9.FfG7tIIVlVbU3oW9g8gPxYfoWAGs3KsqG4ee15oxcAc
+
+4. Select Query and refresh the shema
+5. Test with Query, Mutation of GrapQL API
+
 
 To kill container
 $ docker kill <container id>
 ```
 
-## Testing on GraphQL APIs
 
-### CREATE USER
-mutation {
-  createUser(username: "Roger Lau", email: "roger@lau.com", password: "123XYZ#abc") {
-    username,
-    email,
-    created_at,
-    updated_at
-  }
-}
+## About the preset database
+Note:
+1. 109 blog posts, 7 users
+2. only 2 users/ authors published blog posts:
 
-### QUERY USERS
-query{
-  Users{
-    id,
-	username,
-    email,
-    created_at,
-    updated_at
-  }
-}
+First User:
 
-### QUERY USERS WITH THEIR POST DETAIL
-query{
-  Users{
-    id,
-	  username,
-    email,
-    created_at,
-    updated_at,
-    post {
-      id,
-      title,
-      created_at
-    }
-  }
-}
+username: roger
+
+password: password
+
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjc4LCJpYXQiOjE2ODQ4NjM3MTF9.FfG7tIIVlVbU3oW9g8gPxYfoWAGs3KsqG4ee15oxcAc
+
+blog id: 1, 2, 3
+
+----------------------
+
+Second User:
+
+username: lau
+
+password: password
+
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUxNiwiaWF0IjoxNjg0ODY0MDkwfQ.6OVBLWw0iH9t3D-FBgZVeXcs9Bp1rJQMEhacq4YVYe0
+
+blog id: 4
 
 
-### CREATE POST
-mutation {
-  createPost(title: "Toy Story", content: "Here are some of the main characters from the Toy Story franchise: Woody - The main protagonist and leader of the toys.Buzz Lightyear - A space ranger action figure who becomes one of Andy's favorite toys. Jessie - A spirited cowgirl doll and member of Woody's Roundup Gang.Mr. Potato Head - A sarcastic and funny potato-shaped toy with detachable body parts. Rex - A lovable but timid Tyrannosaurus rex toy. Hamm - A wise-cracking piggy bank and one of Andy's toys. Slinky Dog - A loyal and stretchy toy dog with a slinky body. Bo Peep - A porcelain figurine and love interest of Woody. Aliens - The cute, three-eyed extraterrestrial toys from Pizza Planet. Andy - The owner of the toys and their human friend. These are just a few of the beloved characters from the Toy Story series, which has a rich ensemble cast of toys and humans alike.", author_id: 1, ) {
-    id,
-    title,
-    content,
-    author_id,
-    created_at,
-    updated_at
-  }
-}
 
-
-### QUERY POSTS
-query{
-  Posts{
-    id,
-    title,
-    content,
-    author_id,
-    created_at,
-    updated_at,
-    author{
-      email,
-      id,
-      username
-    }
-  }
-}
-
-### QUERY POST BY ID
-query{
-  Post(id:1){
-    id,
-    title,
-    content,
-    author_id,
-    created_at,
-    updated_at,
-    author{
-      id,
-      username
-    }
-  }
-}
-
-### UPDATE POST BY ID
-mutation {
-  updatePost(
-    id: 1,
-    title: "Toy Story 2",
-    content: "Here are some of the main characters from the Toy Story franchise: Woody - The main protagonist and leader of the toys.Buzz Lightyear - A space ranger action figure who becomes one of Andy's favorite toys. Jessie - A spirited cowgirl doll and member of Woody's Roundup Gang.Mr. Potato Head - A sarcastic and funny potato-shaped toy with detachable body parts. Rex - A lovable but timid Tyrannosaurus rex toy. Hamm - A wise-cracking piggy bank and one of Andy's toys. Slinky Dog - A loyal and stretchy toy dog with a slinky body. Bo Peep - A porcelain figurine and love interest of Woody. Aliens - The cute, three-eyed extraterrestrial toys from Pizza Planet. Andy - The owner of the toys and their human friend. These are just a few of the beloved characters from the Toy Story series, which has a rich ensemble cast of toys and humans alike.",
-    author_id: 2
-  )
-}
-
-### DELETE POST BY ID
-mutation {
-  deletePost(id:2)
-}
+## Features:
+1. JWT authorization is required to view / midify data
+2. users can only edit, delete their own blog posts
+3. A query API of users listing is not required, but remain here just for demonstration / testing
